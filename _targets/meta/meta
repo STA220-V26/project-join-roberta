@@ -24,4 +24,10 @@ export_data_scan|function|a1f1c7813378b3f9
 pkgs|object|efd3ce29d831a79d
 get_codebook|function|5783bc83205d8ee7
 export_data_scans|function|a3622d6e6a84d364
-report|stem|c2e53f51f0cab0d8|983ef0d6bcb8120b|21b604f129413f0d|787668912|report.html*report_files*report.qmd|t20529.5703448215s|s915248b|915248|file|local|vector|||3.74||
+report|stem|f988815103001263|5f76d00faccb8520|1ce41df53926b825|787668912|report.html*report_files*report.qmd|t20529.6210070126s|s934839b|934839|file|local|vector|||10.12||
+export_data_scan|function|a1f1c7813378b3f9
+pkgs|object|efd3ce29d831a79d
+get_codebook|function|5783bc83205d8ee7
+export_data_scans|function|a3622d6e6a84d364
+codebook|stem|89a9c459e1229c52|883ce2d3e7bc3837|161ca94b9250209e|30408179||t20529.6232197974s|s6003b|6003|qs|local|vector|||2.28||
+dts_fixed|stem|51084a12dc288064|1531aedcc8a8ec87|2c530c1562a7fbd1|705943746||t20529.623517609s|s227740379b|227740379|qs|local|vector|||16.07||
