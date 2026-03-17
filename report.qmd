@@ -157,7 +157,7 @@ ggplot(analysis, aes(x = age, y = n_encounters)) +
 
 ## Hypothesis Testing
 
-### H1 Age
+### Hypothesis 1: Age predicts healthcare utilization and coverage
 
 ```{r}
 #| label: h1-age
@@ -166,7 +166,7 @@ cor.test(analysis$age, analysis$n_encounters, method = "spearman")
 cor.test(analysis$age, analysis$healthcare_coverage, method = "spearman")
 ```
 
-### H2 Gender
+### Hypothesis 2: Gender differences in utilization and coverage
 
 ```{r}
 #| label: h2-gender
@@ -175,7 +175,7 @@ t.test(n_encounters ~ gender, data = analysis)
 t.test(healthcare_coverage ~ gender, data = analysis)
 ```
 
-### H3 Race
+### Hypothesis 3: Race differences in utilization and coverage
 
 ```{r}
 #| label: h3-race
