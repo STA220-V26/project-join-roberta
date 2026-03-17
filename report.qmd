@@ -54,6 +54,9 @@ Prior to regression, hypothesis tests were conducted for each predictor:
 #| label: data-preparation
 #| message: false
 
+library(ggplot2)
+library(knitr)
+library(data.table)
 targets::tar_load(dt_patients)
 targets::tar_load(dt_encounters)
 targets::tar_load(dt_payer_transitions)
@@ -73,17 +76,12 @@ analysis <- analysis[is.na(dt_patients[match(analysis$id, dt_patients$id), death
                      dt_patients[match(analysis$id, dt_patients$id), deathdate] == ""]
 ```
 
-### Extract .....
-
-### Identify ...
-
 ### Create Analysis Dataset
 
 ### Table of Missing Values in Key Variables
 
 ```{r}
 #| label: missing-values
-library(knitr)
 missing <- sapply(analysis, function(x) sum(is.na(x)))
 kable(data.frame(Variable = names(missing), Missing = missing), row.names = FALSE)
 ```
@@ -91,8 +89,6 @@ kable(data.frame(Variable = names(missing), Missing = missing), row.names = FALS
 ## Exploratory Data Analysis
 
 ### Sample Characteristics
-
-### Table of Overall Sample Characteristics
 
 ```{r}
 #| label: sample-characteristics
@@ -106,10 +102,12 @@ summary_table <- analysis[, .(
 kable(summary_table)
 ```
 
-### Some Plots and Interpretation
+### Visualisations
+
+@fig-age-distribution shows the age distribution of patients. @fig-encounters-gender and @fig-encounters-race display healthcare utilization by gender and race respectively. @fig-coverage-race shows insurance coverage by race, and @fig-age-encounters illustrates the relationship between age and number of encounters.
 
 ```{r}
-#| label: plot-age-distribution
+#| label: fig-age-distribution
 #| fig-cap: "Age distribution of patients"
 ggplot(analysis, aes(x = age)) +
   geom_histogram(binwidth = 5, fill = "steelblue", color = "white") +
@@ -118,7 +116,7 @@ ggplot(analysis, aes(x = age)) +
 ```
 
 ```{r}
-#| label: plot-encounters-gender
+#| label: fig-encounters-gender
 #| fig-cap: "Number of encounters by gender"
 ggplot(analysis, aes(x = gender, y = n_encounters, fill = gender)) +
   geom_boxplot() +
@@ -128,7 +126,7 @@ ggplot(analysis, aes(x = gender, y = n_encounters, fill = gender)) +
 ```
 
 ```{r}
-#| label: plot-encounters-race
+#| label: fig-encounters-race
 #| fig-cap: "Number of encounters by race"
 ggplot(analysis, aes(x = race, y = n_encounters, fill = race)) +
   geom_boxplot() +
@@ -138,7 +136,7 @@ ggplot(analysis, aes(x = race, y = n_encounters, fill = race)) +
 ```
 
 ```{r}
-#| label: plot-coverage-race
+#| label: fig-coverage-race
 #| fig-cap: "Insurance coverage by race"
 ggplot(analysis, aes(x = race, y = healthcare_coverage, fill = race)) +
   geom_boxplot() +
@@ -148,7 +146,7 @@ ggplot(analysis, aes(x = race, y = healthcare_coverage, fill = race)) +
 ```
 
 ```{r}
-#| label: plot-age-encounters
+#| label: fig-age-encounters
 #| fig-cap: "Relationship between age and number of encounters"
 ggplot(analysis, aes(x = age, y = n_encounters)) +
   geom_point(alpha = 0.3, color = "steelblue") +
@@ -186,7 +184,7 @@ kruskal.test(n_encounters ~ race, data = analysis)
 kruskal.test(healthcare_coverage ~ race, data = analysis)
 ```
 
-## Regression Models
+## Statistical Analysis
 
 ```{r}
 #| label: regression
