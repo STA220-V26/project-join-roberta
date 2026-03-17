@@ -1,0 +1,63 @@
+---
+title: "Sociodemographical factors predicting healthcare utilization and insurance coverage patterns"
+author: "Lovisa Johansson & Roberta Merialdo"
+format: html
+---
+
+::: {.callout-note}
+This report was generated using synthetic data! It is only used for demonstration purposes and does not reflect real patients or healthcare providers. The contents have not been reviewed or validated by medical professionals.
+:::
+
+## Introduction
+
+## Research Question
+*"Do sociodemographic factors (age, gender, race) predict healthcare utilization and insurance coverage patterns?"*
+
+## Data and Methods
+
+### Dataset Description
+
+### Variable Definitions
+
+### Statistical Methods
+
+## Data Preparation
+
+```{r}
+targets::tar_load(dt_patients)
+# to be added
+```
+
+### Extract .....
+
+### Identify ...
+
+### Create Analysis Dataset
+
+### Table of Missing Values in Key Variables
+
+## Exploratory Data Analysis
+
+### Sample Characteristics
+
+### Table of Overall Sample Characteristics
+
+### Some Plots and Interpretation
+
+## Hypothesis Testing
+
+### H1 Age
+
+### H2 Gender
+
+### H3 Race
+
+## Discussion and Conclusion
+
+### Key Findings
+
+### Clinical Implications
+
+### Limitations
+
+### Conclusion

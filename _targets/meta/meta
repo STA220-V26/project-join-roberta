@@ -1,0 +1,27 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+codebook|stem|2c6c55d55ca15eb1|883ce2d3e7bc3837|4c27787832af983a|30408179||t20363.4165792423s|s5998b|5998|qs|local|vector|||1.125||
+data_scans_patient|stem|516c2b8b4ec906bd|511e014e1a2e2a8c|cefd3a087de3ca33|47654839|data_scans/dt_patients.html|t20363.487365172s|s2488254b|2488254|file|local|vector|||11.911|Only useing a sample of the data!|
+zipdata|stem|6da312022b65668f|af7f87c830782109|2c530c1562a7fbd1|-63167595|data.zip|t20516.5289480694s|s292920697b|292920697|file|local|vector|||0||
+dt_organizations|stem|27051d8fb9d46946|c787155b26a924a6|2c530c1562a7fbd1|-1795750895||t20516.5962971802s|s322656b|322656|qs|local|vector|||0.01||
+dt_medications|stem|9c7c89e7b890be8c|b7d8619e6ea39c25|2c530c1562a7fbd1|265177570||t20516.5963083756s|s9885870b|9885870|qs|local|vector|||0.5||
+dt_allergies|stem|c18db2a1b596240c|c8b6c5279712066c|2c530c1562a7fbd1|-1565570431||t20516.5963122429s|s63256b|63256|qs|local|vector|||0.08||
+dt_procedures|stem|6abe2bd6bb7dfedb|ec204e2adc9b954f|2c530c1562a7fbd1|2336608||t20516.5963432135s|s33710608b|33710608|qs|local|vector|||1.6||
+dt_claims|stem|f68b1cf5a39e57dd|5c66c9563dbe8127|2c530c1562a7fbd1|495293217||t20516.5963772488s|s61946525b|61946525|qs|local|vector|||1.51||
+dt_immunizations|stem|b4579978f6b22333|d4857874a12c4c5f|2c530c1562a7fbd1|94927996||t20516.5963814844s|s2365621b|2365621|qs|local|vector|||0.18||
+dt_payer_transitions|stem|7919d40c7aa23e15|1e35837374cf7a37|2c530c1562a7fbd1|1344044977||t20516.5963850457s|s2023469b|2023469|qs|local|vector|||0.05||
+dt_payers|stem|c14ed7869d260d97|980a75f2bbc080e1|2c530c1562a7fbd1|-755826596||t20516.5963861569s|s3218b|3218|qs|local|vector|||0.01||
+dt_encounters|stem|9cfecc7e981e82b8|6f6d8f1141eb4494|2c530c1562a7fbd1|-1406823630||t20516.5964030235s|s32706104b|32706104|qs|local|vector|||0.65||
+dt_devices|stem|70312536db10870b|39afd41c1bd1e4f4|2c530c1562a7fbd1|-730020117||t20516.5964085845s|s3984473b|3984473|qs|local|vector|||0.21||
+dt_patients|stem|f5acfc16c07e4c05|e9c75326b2352693|2c530c1562a7fbd1|-1414332576||t20516.5964108846s|s613214b|613214|qs|local|vector|||0.02||
+dt_imaging_studies|stem|7e890548eb6f2f82|17ef96a0fa53c4f1|2c530c1562a7fbd1|731909402||t20516.5964285042s|s7968916b|7968916|qs|local|vector|||1.01||
+dt_careplans|stem|c29361ddbf88e5d6|8877f67b8bacec1c|2c530c1562a7fbd1|-256732198||t20516.5964315247s|s821733b|821733|qs|local|vector|||0.12||
+dt_supplies|stem|082dcc0d28f0197b|a1616a5be8b4218b|2c530c1562a7fbd1|1729362904||t20516.596434776s|s1394609b|1394609|qs|local|vector|||0.06||
+dt_observations|stem|14eb0708c6395761|c25a3de69ecc1acf|2c530c1562a7fbd1|2145534448||t20516.596529625s|s64356898b|64356898|qs|local|vector|||4.11||
+dt_providers|stem|0941ec6d3197fede|f05a9aa2e14ffbfc|2c530c1562a7fbd1|948729742||t20516.5965324266s|s285274b|285274|qs|local|vector|||0.08||
+dt_conditions|stem|e30c8f53378215e2|b0d29d772c636e53|2c530c1562a7fbd1|-2035416186||t20516.5965363631s|s5579914b|5579914|qs|local|vector|||0.15||
+csv_files|stem|b041a45d4cda24f1|ee8c8506388aebb9|baeb2f1360659ba2|966457852||t20529.5154875634s|s64b|64|qs|local|vector|||11.46||
+export_data_scan|function|a1f1c7813378b3f9
+pkgs|object|efd3ce29d831a79d
+get_codebook|function|5783bc83205d8ee7
+export_data_scans|function|a3622d6e6a84d364
+report|stem|c2e53f51f0cab0d8|983ef0d6bcb8120b|21b604f129413f0d|787668912|report.html*report_files*report.qmd|t20529.5703448215s|s915248b|915248|file|local|vector|||3.74||

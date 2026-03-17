@@ -1,0 +1,5 @@
+*.zip
+data-fixed/*
+report_files/
+instructions_files/
+
