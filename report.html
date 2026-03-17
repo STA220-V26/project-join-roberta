@@ -142,7 +142,22 @@ Note
 <h2 class="anchored" data-anchor-id="data-preparation">Data Preparation</h2>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_load</span>(dt_patients)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># to be added</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_load</span>(dt_encounters)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>targets<span class="sc">::</span><span class="fu">tar_load</span>(dt_payer_transitions)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate age from birthdate</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>dt_patients[, age <span class="sc">:</span><span class="er">=</span> <span class="fu">as.numeric</span>(<span class="fu">difftime</span>(<span class="fu">Sys.Date</span>(), <span class="fu">as.Date</span>(birthdate), <span class="at">units =</span> <span class="st">"days"</span>)) <span class="sc">/</span> <span class="fl">365.25</span>]</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Count number of encounters per patient (healthcare utilization)</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>encounter_counts <span class="ot">&lt;-</span> dt_encounters[, .(<span class="at">n_encounters =</span> .N), by <span class="ot">=</span> patient]</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Join patients with encounter counts and coverage</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> dt_patients[encounter_counts, on <span class="ot">=</span> .(<span class="at">id =</span> patient), nomatch <span class="ot">=</span> <span class="dv">0</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> analysis[, .(id, age, gender, race, n_encounters, healthcare_coverage)]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove deceased patients</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>analysis <span class="ot">&lt;-</span> analysis[<span class="fu">is.na</span>(dt_patients[<span class="fu">match</span>(analysis<span class="sc">$</span>id, dt_patients<span class="sc">$</span>id), deathdate]) <span class="sc">|</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>                     dt_patients[<span class="fu">match</span>(analysis<span class="sc">$</span>id, dt_patients<span class="sc">$</span>id), deathdate] <span class="sc">==</span> <span class="st">""</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <section id="extract-.." class="level3">
 <h3 class="anchored" data-anchor-id="extract-..">Extract …..</h3>
@@ -155,6 +170,47 @@ Note
 </section>
 <section id="table-of-missing-values-in-key-variables" class="level3">
 <h3 class="anchored" data-anchor-id="table-of-missing-values-in-key-variables">Table of Missing Values in Key Variables</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>missing <span class="ot">&lt;-</span> <span class="fu">sapply</span>(analysis, <span class="cf">function</span>(x) <span class="fu">sum</span>(<span class="fu">is.na</span>(x)))</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">data.frame</span>(<span class="at">Variable =</span> <span class="fu">names</span>(missing), <span class="at">Missing =</span> missing), <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: right;">Missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">gender</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">race</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">n_encounters</td>
+<td style="text-align: right;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">healthcare_coverage</td>
+<td style="text-align: right;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 </section>
 <section id="exploratory-data-analysis" class="level2">
@@ -164,6 +220,38 @@ Note
 </section>
 <section id="table-of-overall-sample-characteristics" class="level3">
 <h3 class="anchored" data-anchor-id="table-of-overall-sample-characteristics">Table of Overall Sample Characteristics</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>summary_table <span class="ot">&lt;-</span> analysis[, .(</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">N =</span> .N,</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean_Age =</span> <span class="fu">round</span>(<span class="fu">mean</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>),</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">SD_Age =</span> <span class="fu">round</span>(<span class="fu">sd</span>(age, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>),</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean_Encounters =</span> <span class="fu">round</span>(<span class="fu">mean</span>(n_encounters, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">1</span>),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">Mean_Coverage =</span> <span class="fu">round</span>(<span class="fu">mean</span>(healthcare_coverage, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="dv">0</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>)]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(summary_table)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: right;">N</th>
+<th style="text-align: right;">Mean_Age</th>
+<th style="text-align: right;">SD_Age</th>
+<th style="text-align: right;">Mean_Encounters</th>
+<th style="text-align: right;">Mean_Coverage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">6000</td>
+<td style="text-align: right;">39.3</td>
+<td style="text-align: right;">23.3</td>
+<td style="text-align: right;">125.3</td>
+<td style="text-align: right;">330978</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 </section>
 <section id="some-plots-and-interpretation" class="level3">
 <h3 class="anchored" data-anchor-id="some-plots-and-interpretation">Some Plots and Interpretation</h3>
@@ -173,13 +261,165 @@ Note
 <h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis Testing</h2>
 <section id="h1-age" class="level3">
 <h3 class="anchored" data-anchor-id="h1-age">H1 Age</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H1: Age predicts healthcare utilization and coverage</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>n_encounters, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(analysis$age, analysis$n_encounters, method =
+"spearman"): Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  analysis$age and analysis$n_encounters
+S = 9432244322, p-value &lt; 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.7379932 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>healthcare_coverage, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in cor.test.default(analysis$age, analysis$healthcare_coverage, :
+Cannot compute exact p-value with ties</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Spearman's rank correlation rho
+
+data:  analysis$age and analysis$healthcare_coverage
+S = 1.5332e+10, p-value &lt; 2.2e-16
+alternative hypothesis: true rho is not equal to 0
+sample estimates:
+      rho 
+0.5740976 </code></pre>
+</div>
+</div>
 </section>
 <section id="h2-gender" class="level3">
 <h3 class="anchored" data-anchor-id="h2-gender">H2 Gender</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H2: Gender differences in utilization and coverage</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(n_encounters <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  n_encounters by gender
+t = 9.7216, df = 5897.4, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group F and group M is not equal to 0
+95 percent confidence interval:
+ 27.56728 41.49333
+sample estimates:
+mean in group F mean in group M 
+       141.9232        107.3929 </code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(healthcare_coverage <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  healthcare_coverage by gender
+t = 24.921, df = 5420.4, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group F and group M is not equal to 0
+95 percent confidence interval:
+ 250948.1 293800.3
+sample estimates:
+mean in group F mean in group M 
+       462125.9        189751.6 </code></pre>
+</div>
+</div>
 </section>
 <section id="h3-race" class="level3">
 <h3 class="anchored" data-anchor-id="h3-race">H3 Race</h3>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H3: Race differences in utilization and coverage</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(n_encounters <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  n_encounters by race
+Kruskal-Wallis chi-squared = 2.654, df = 5, p-value = 0.7531</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(healthcare_coverage <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  healthcare_coverage by race
+Kruskal-Wallis chi-squared = 6.6684, df = 5, p-value = 0.2465</code></pre>
+</div>
+</div>
 </section>
+</section>
+<section id="regression-models" class="level2">
+<h2 class="anchored" data-anchor-id="regression-models">Regression Models</h2>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome 1: Healthcare utilization (count → Poisson regression)</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>model_utilization <span class="ot">&lt;-</span> <span class="fu">glm</span>(n_encounters <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> race,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> analysis,</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                         <span class="at">family =</span> <span class="fu">poisson</span>())</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_utilization)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = n_encounters ~ age + gender + race, family = poisson(), 
+    data = analysis)
+
+Coefficients:
+               Estimate Std. Error  z value Pr(&gt;|z|)    
+(Intercept)   3.689e+00  5.743e-03  642.369  &lt; 2e-16 ***
+age           2.703e-02  4.845e-05  557.842  &lt; 2e-16 ***
+genderM      -2.960e-01  2.344e-03 -126.247  &lt; 2e-16 ***
+raceblack     7.886e-02  5.940e-03   13.276  &lt; 2e-16 ***
+racehawaiian  1.046e-01  9.584e-03   10.914  &lt; 2e-16 ***
+racenative    9.156e-02  7.601e-03   12.046  &lt; 2e-16 ***
+raceother     6.308e-02  9.640e-03    6.543 6.02e-11 ***
+racewhite    -1.288e-02  5.160e-03   -2.496   0.0125 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for poisson family taken to be 1)
+
+    Null deviance: 618056  on 5999  degrees of freedom
+Residual deviance: 289986  on 5992  degrees of freedom
+AIC: 327342
+
+Number of Fisher Scoring iterations: 5</code></pre>
+</div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Outcome 2: Insurance coverage (continuous → linear regression)</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>model_coverage <span class="ot">&lt;-</span> <span class="fu">lm</span>(healthcare_coverage <span class="sc">~</span> age <span class="sc">+</span> gender <span class="sc">+</span> race,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">data =</span> analysis)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(model_coverage)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = healthcare_coverage ~ age + gender + race, data = analysis)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-816007 -218301  -83981  118564 3487604 
+
+Coefficients:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)   157567.9    23313.3   6.759 1.52e-11 ***
+age             8808.0      209.2  42.107  &lt; 2e-16 ***
+genderM      -276484.1     9744.4 -28.374  &lt; 2e-16 ***
+raceblack     -68258.4    25472.8  -2.680  0.00739 ** 
+racehawaiian  -17676.8    41305.7  -0.428  0.66870    
+racenative    -11906.3    32822.0  -0.363  0.71680    
+raceother     -34383.3    40907.7  -0.841  0.40066    
+racewhite     -40058.5    21904.6  -1.829  0.06748 .  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 376900 on 5992 degrees of freedom
+Multiple R-squared:  0.2999,    Adjusted R-squared:  0.2991 
+F-statistic: 366.8 on 7 and 5992 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+</div>
 </section>
 <section id="discussion-and-conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="discussion-and-conclusion">Discussion and Conclusion</h2>
