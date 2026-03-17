@@ -1,5 +1,4 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-codebook|stem|2c6c55d55ca15eb1|883ce2d3e7bc3837|4c27787832af983a|30408179||t20363.4165792423s|s5998b|5998|qs|local|vector|||1.125||
 data_scans_patient|stem|516c2b8b4ec906bd|511e014e1a2e2a8c|cefd3a087de3ca33|47654839|data_scans/dt_patients.html|t20363.487365172s|s2488254b|2488254|file|local|vector|||11.911|Only useing a sample of the data!|
 zipdata|stem|6da312022b65668f|af7f87c830782109|2c530c1562a7fbd1|-63167595|data.zip|t20516.5289480694s|s292920697b|292920697|file|local|vector|||0||
 dt_organizations|stem|27051d8fb9d46946|c787155b26a924a6|2c530c1562a7fbd1|-1795750895||t20516.5962971802s|s322656b|322656|qs|local|vector|||0.01||
@@ -20,14 +19,12 @@ dt_observations|stem|14eb0708c6395761|c25a3de69ecc1acf|2c530c1562a7fbd1|21455344
 dt_providers|stem|0941ec6d3197fede|f05a9aa2e14ffbfc|2c530c1562a7fbd1|948729742||t20516.5965324266s|s285274b|285274|qs|local|vector|||0.08||
 dt_conditions|stem|e30c8f53378215e2|b0d29d772c636e53|2c530c1562a7fbd1|-2035416186||t20516.5965363631s|s5579914b|5579914|qs|local|vector|||0.15||
 csv_files|stem|b041a45d4cda24f1|ee8c8506388aebb9|baeb2f1360659ba2|966457852||t20529.5154875634s|s64b|64|qs|local|vector|||11.46||
-export_data_scan|function|a1f1c7813378b3f9
-pkgs|object|efd3ce29d831a79d
-get_codebook|function|5783bc83205d8ee7
-export_data_scans|function|a3622d6e6a84d364
-report|stem|f988815103001263|5f76d00faccb8520|1ce41df53926b825|787668912|report.html*report_files*report.qmd|t20529.6210070126s|s934839b|934839|file|local|vector|||10.12||
-export_data_scan|function|a1f1c7813378b3f9
-pkgs|object|efd3ce29d831a79d
-get_codebook|function|5783bc83205d8ee7
-export_data_scans|function|a3622d6e6a84d364
 codebook|stem|89a9c459e1229c52|883ce2d3e7bc3837|161ca94b9250209e|30408179||t20529.6232197974s|s6003b|6003|qs|local|vector|||2.28||
 dts_fixed|stem|51084a12dc288064|1531aedcc8a8ec87|2c530c1562a7fbd1|705943746||t20529.623517609s|s227740379b|227740379|qs|local|vector|||16.07||
+data_scans|stem|020049acf5b02bb3|f61da5e99cc7c5c5|c6b3c7cb97f16261|2130467628|data_scans|t20529.6335660953s|s22744911b|22744911|file|local|vector|||210.64|Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!. Only useing a sample of the data!|
+export_data_scan|function|a1f1c7813378b3f9
+pkgs|object|efd3ce29d831a79d
+.Random.seed|object|c85679afa73e09b2
+get_codebook|function|5783bc83205d8ee7
+export_data_scans|function|a3622d6e6a84d364
+report|stem|f988815103001263|5f76d00faccb8520|1ce41df53926b825|787668912|report.html*report_files*report.qmd|t20529.6210070126s||934839|file|local|vector|||4.7||! Error running quarto CLI from R. Caused by error: ✖ Error returned by quarto CLI. ℹ Rerun with `quiet = FALSE` to see the full error message. Caused by error: ! System command 'quarto.exe' failed
