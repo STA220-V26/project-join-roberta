@@ -409,8 +409,8 @@ Figure&nbsp;5: Relationship between age and number of encounters
 </section>
 <section id="hypothesis-testing" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis Testing</h2>
-<section id="h1-age" class="level3">
-<h3 class="anchored" data-anchor-id="h1-age">H1 Age</h3>
+<section id="hypothesis-1-age-predicts-healthcare-utilization-and-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-1-age-predicts-healthcare-utilization-and-coverage">Hypothesis 1: Age predicts healthcare utilization and coverage</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H1: Age predicts healthcare utilization and coverage</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>n_encounters, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -447,8 +447,8 @@ sample estimates:
 </div>
 </div>
 </section>
-<section id="h2-gender" class="level3">
-<h3 class="anchored" data-anchor-id="h2-gender">H2 Gender</h3>
+<section id="hypothesis-2-gender-differences-in-utilization-and-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-2-gender-differences-in-utilization-and-coverage">Hypothesis 2: Gender differences in utilization and coverage</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H2: Gender differences in utilization and coverage</span></span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(n_encounters <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -481,8 +481,8 @@ mean in group F mean in group M
 </div>
 </div>
 </section>
-<section id="h3-race" class="level3">
-<h3 class="anchored" data-anchor-id="h3-race">H3 Race</h3>
+<section id="hypothesis-3-race-differences-in-utilization-and-coverage" class="level3">
+<h3 class="anchored" data-anchor-id="hypothesis-3-race-differences-in-utilization-and-coverage">Hypothesis 3: Race differences in utilization and coverage</h3>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H3: Race differences in utilization and coverage</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(n_encounters <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
