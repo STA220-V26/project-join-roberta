@@ -189,11 +189,11 @@ Note
 <li><strong>Healthcare utilization</strong> (<code>n_encounters</code>) — a count variable modelled using Poisson regression</li>
 <li><strong>Insurance coverage</strong> (<code>healthcare_coverage</code>) — a continuous variable modelled using linear regression</li>
 </ol>
-<p>Prior to regression, hypothesis tests were conducted for each predictor:</p>
+<p>Prior to regression, hypothesis tests were conducted for each predictor–outcome combination (H1a–H3b):</p>
 <ul>
-<li><strong>Age</strong> — Spearman correlation (non-parametric, due to skewed distributions)</li>
-<li><strong>Gender</strong> — Independent samples t-test</li>
-<li><strong>Race</strong> — Kruskal-Wallis test (non-parametric, multiple groups)</li>
+<li><strong>Age</strong> — Spearman correlation (non-parametric, due to skewed distributions), tested separately for each outcome</li>
+<li><strong>Gender</strong> — Independent samples t-test, tested separately for each outcome</li>
+<li><strong>Race</strong> — Kruskal-Wallis test (non-parametric, multiple groups), tested separately for each outcome</li>
 </ul>
 </section>
 </section>
@@ -409,10 +409,12 @@ Figure&nbsp;5: Relationship between age and number of encounters
 </section>
 <section id="hypothesis-testing" class="level2">
 <h2 class="anchored" data-anchor-id="hypothesis-testing">Hypothesis Testing</h2>
-<section id="hypothesis-1-age-predicts-healthcare-utilization-and-coverage" class="level3">
-<h3 class="anchored" data-anchor-id="hypothesis-1-age-predicts-healthcare-utilization-and-coverage">Hypothesis 1: Age predicts healthcare utilization and coverage</h3>
+<section id="healthcare-utilization-n_encounters" class="level3">
+<h3 class="anchored" data-anchor-id="healthcare-utilization-n_encounters">Healthcare Utilization (<code>n_encounters</code>)</h3>
+<section id="hypothesis-1a-age-is-associated-with-healthcare-utilization" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-1a-age-is-associated-with-healthcare-utilization">Hypothesis 1a: Age is associated with healthcare utilization</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H1: Age predicts healthcare utilization and coverage</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H1a: Age is associated with healthcare utilization</span></span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>n_encounters, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor.test.default(analysis$age, analysis$n_encounters, method =
@@ -429,7 +431,50 @@ sample estimates:
       rho 
 0.7379932 </code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>healthcare_coverage, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="hypothesis-2a-gender-is-associated-with-healthcare-utilization" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-2a-gender-is-associated-with-healthcare-utilization">Hypothesis 2a: Gender is associated with healthcare utilization</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H2a: Gender is associated with healthcare utilization</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(n_encounters <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Welch Two Sample t-test
+
+data:  n_encounters by gender
+t = 9.7216, df = 5897.4, p-value &lt; 2.2e-16
+alternative hypothesis: true difference in means between group F and group M is not equal to 0
+95 percent confidence interval:
+ 27.56728 41.49333
+sample estimates:
+mean in group F mean in group M 
+       141.9232        107.3929 </code></pre>
+</div>
+</div>
+</section>
+<section id="hypothesis-3a-race-is-associated-with-healthcare-utilization" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-3a-race-is-associated-with-healthcare-utilization">Hypothesis 3a: Race is associated with healthcare utilization</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H3a: Race is associated with healthcare utilization</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(n_encounters <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+    Kruskal-Wallis rank sum test
+
+data:  n_encounters by race
+Kruskal-Wallis chi-squared = 2.654, df = 5, p-value = 0.7531</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="insurance-coverage-healthcare_coverage" class="level3">
+<h3 class="anchored" data-anchor-id="insurance-coverage-healthcare_coverage">Insurance Coverage (<code>healthcare_coverage</code>)</h3>
+<section id="hypothesis-1b-age-is-associated-with-insurance-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-1b-age-is-associated-with-insurance-coverage">Hypothesis 1b: Age is associated with insurance coverage</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H1b: Age is associated with insurance coverage</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="fu">cor.test</span>(analysis<span class="sc">$</span>age, analysis<span class="sc">$</span>healthcare_coverage, <span class="at">method =</span> <span class="st">"spearman"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stderr">
 <pre><code>Warning in cor.test.default(analysis$age, analysis$healthcare_coverage, :
 Cannot compute exact p-value with ties</code></pre>
@@ -447,25 +492,11 @@ sample estimates:
 </div>
 </div>
 </section>
-<section id="hypothesis-2-gender-differences-in-utilization-and-coverage" class="level3">
-<h3 class="anchored" data-anchor-id="hypothesis-2-gender-differences-in-utilization-and-coverage">Hypothesis 2: Gender differences in utilization and coverage</h3>
+<section id="hypothesis-2b-gender-is-associated-with-insurance-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-2b-gender-is-associated-with-insurance-coverage">Hypothesis 2b: Gender is associated with insurance coverage</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H2: Gender differences in utilization and coverage</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(n_encounters <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Welch Two Sample t-test
-
-data:  n_encounters by gender
-t = 9.7216, df = 5897.4, p-value &lt; 2.2e-16
-alternative hypothesis: true difference in means between group F and group M is not equal to 0
-95 percent confidence interval:
- 27.56728 41.49333
-sample estimates:
-mean in group F mean in group M 
-       141.9232        107.3929 </code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(healthcare_coverage <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H2b: Gender is associated with insurance coverage</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">t.test</span>(healthcare_coverage <span class="sc">~</span> gender, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Welch Two Sample t-test
@@ -481,19 +512,11 @@ mean in group F mean in group M
 </div>
 </div>
 </section>
-<section id="hypothesis-3-race-differences-in-utilization-and-coverage" class="level3">
-<h3 class="anchored" data-anchor-id="hypothesis-3-race-differences-in-utilization-and-coverage">Hypothesis 3: Race differences in utilization and coverage</h3>
+<section id="hypothesis-3b-race-is-associated-with-insurance-coverage" class="level4">
+<h4 class="anchored" data-anchor-id="hypothesis-3b-race-is-associated-with-insurance-coverage">Hypothesis 3b: Race is associated with insurance coverage</h4>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H3: Race differences in utilization and coverage</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(n_encounters <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>
-    Kruskal-Wallis rank sum test
-
-data:  n_encounters by race
-Kruskal-Wallis chi-squared = 2.654, df = 5, p-value = 0.7531</code></pre>
-</div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(healthcare_coverage <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># H3b: Race is associated with insurance coverage</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="fu">kruskal.test</span>(healthcare_coverage <span class="sc">~</span> race, <span class="at">data =</span> analysis)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
     Kruskal-Wallis rank sum test
@@ -502,6 +525,7 @@ data:  healthcare_coverage by race
 Kruskal-Wallis chi-squared = 6.6684, df = 5, p-value = 0.2465</code></pre>
 </div>
 </div>
+</section>
 </section>
 </section>
 <section id="statistical-analysis" class="level2">

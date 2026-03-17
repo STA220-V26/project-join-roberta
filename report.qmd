@@ -42,11 +42,11 @@ Two outcomes were analysed:
 1. **Healthcare utilization** (`n_encounters`) — a count variable modelled using Poisson regression
 2. **Insurance coverage** (`healthcare_coverage`) — a continuous variable modelled using linear regression
 
-Prior to regression, hypothesis tests were conducted for each predictor:
+Prior to regression, hypothesis tests were conducted for each predictor–outcome combination (H1a–H3b):
 
-- **Age** — Spearman correlation (non-parametric, due to skewed distributions)
-- **Gender** — Independent samples t-test
-- **Race** — Kruskal-Wallis test (non-parametric, multiple groups)
+- **Age** — Spearman correlation (non-parametric, due to skewed distributions), tested separately for each outcome
+- **Gender** — Independent samples t-test, tested separately for each outcome
+- **Race** — Kruskal-Wallis test (non-parametric, multiple groups), tested separately for each outcome
 
 ## Data Preparation
 
@@ -157,30 +157,55 @@ ggplot(analysis, aes(x = age, y = n_encounters)) +
 
 ## Hypothesis Testing
 
-### Hypothesis 1: Age predicts healthcare utilization and coverage
+### Healthcare Utilization (`n_encounters`)
+
+#### Hypothesis 1a: Age is associated with healthcare utilization
 
 ```{r}
-#| label: h1-age
-# H1: Age predicts healthcare utilization and coverage
+#| label: h1a-age-utilization
+# H1a: Age is associated with healthcare utilization
 cor.test(analysis$age, analysis$n_encounters, method = "spearman")
+```
+
+#### Hypothesis 2a: Gender is associated with healthcare utilization
+
+```{r}
+#| label: h2a-gender-utilization
+# H2a: Gender is associated with healthcare utilization
+t.test(n_encounters ~ gender, data = analysis)
+```
+
+#### Hypothesis 3a: Race is associated with healthcare utilization
+
+```{r}
+#| label: h3a-race-utilization
+# H3a: Race is associated with healthcare utilization
+kruskal.test(n_encounters ~ race, data = analysis)
+```
+
+### Insurance Coverage (`healthcare_coverage`)
+
+#### Hypothesis 1b: Age is associated with insurance coverage
+
+```{r}
+#| label: h1b-age-coverage
+# H1b: Age is associated with insurance coverage
 cor.test(analysis$age, analysis$healthcare_coverage, method = "spearman")
 ```
 
-### Hypothesis 2: Gender differences in utilization and coverage
+#### Hypothesis 2b: Gender is associated with insurance coverage
 
 ```{r}
-#| label: h2-gender
-# H2: Gender differences in utilization and coverage
-t.test(n_encounters ~ gender, data = analysis)
+#| label: h2b-gender-coverage
+# H2b: Gender is associated with insurance coverage
 t.test(healthcare_coverage ~ gender, data = analysis)
 ```
 
-### Hypothesis 3: Race differences in utilization and coverage
+#### Hypothesis 3b: Race is associated with insurance coverage
 
 ```{r}
-#| label: h3-race
-# H3: Race differences in utilization and coverage
-kruskal.test(n_encounters ~ race, data = analysis)
+#| label: h3b-race-coverage
+# H3b: Race is associated with insurance coverage
 kruskal.test(healthcare_coverage ~ race, data = analysis)
 ```
 
