@@ -65,9 +65,18 @@ list(
   # containing extracted values and filenames from directory
   # basename() Manipulate File Paths
   # file_path_sans_ext() Utilities for listing files, and manipulating file paths.
-  # TODO: something related to codebook should be added here
+  # Codebook: scrape variable descriptions from Synthea wiki
+  tar_target(codebook, get_codebook()),
 
-  # TODO: Something related to data_scans should be added here
+  # Data scans: build a list of all datasets, then export pointblank HTML reports
+  tar_target(
+    dts_fixed,
+    tibble::tibble(
+      path = dir("data-fixed", full.names = TRUE),
+      name = tools::file_path_sans_ext(basename(path))
+    ) |> dplyr::mutate(data = lapply(path, data.table::fread))
+  ),
+  tar_target(data_scans, export_data_scans(dts_fixed), format = "file"),
 
   tar_quarto(
     report,
