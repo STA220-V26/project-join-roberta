@@ -1,5 +1,5 @@
 ---
-title: "Sociodemographical factors predicting healthcare utilization and insurance coverage patterns"
+title: "Sociodemographic factors predicting healthcare utilization and insurance coverage patterns"
 author: "Lovisa Johansson & Roberta Merialdo"
 format: html
 ---
@@ -10,10 +10,10 @@ This report was generated using synthetic data! It is only used for demonstratio
 
 ## Introduction
 
-Understanding how sociodemographic factors influence healthcare utilization and insurance coverage is essential for identifying disparities in healthcare access and outcomes. Age, gender, and race are known to be associated with differences in health needs and healthcare-seeking behaviour. This project explores these relationships using a synthetic healthcare dataset, with the aim of identifying patterns that may reflect real-world inequalities in healthcare systems.
+Understanding how sociodemographic factors influence healthcare utilization and insurance coverage is important for identifying disparities in healthcare access and outcomes. Age, gender, and race are often associated with differences in health needs and healthcare-seeking behaviour. This project explores these relationships using a synthetic healthcare dataset to identify patterns that may resemble real-world inequalities in healthcare systems.
 
 ## Research Question
-*"Do sociodemographic factors (age, gender, race) predict healthcare utilization and insurance coverage patterns?"*
+*"Do sociodemographic factors such as age, gender, and race predict healthcare utilization and insurance coverage patterns?"*
 
 ## Data and Methods
 
@@ -230,18 +230,31 @@ summary(model_coverage)
 
 ### Key Findings
 
-The analysis examined whether age, gender, and race predict healthcare utilization (number of encounters) and insurance coverage among synthetic patients. Results from the hypothesis tests and regression models reveal the extent to which these sociodemographic factors are associated with differences in healthcare access and use.
+This analysis examined whether age, gender, and race predict healthcare utilization and insurance coverage among synthetic patients. The results suggest that age and gender are the strongest predictors of both outcomes in this dataset.
 
-### Clinical Implications
+Age was positively associated with healthcare utilization. The Spearman correlation showed a strong positive relationship between age and the number of encounters, indicating that older patients tended to have more clinical visits. This finding was also supported by the Poisson regression model, in which age remained a strong and statistically significant predictor of healthcare utilization after adjustment for gender and race.
 
-If sociodemographic factors such as race and gender are significantly associated with healthcare utilization and coverage, this may indicate systemic disparities in healthcare access. Such findings — even in synthetic data — can motivate the development of more equitable healthcare policies and targeted interventions for underserved groups.
+Gender was also significantly associated with healthcare utilization. Female patients had a higher mean number of encounters than male patients, and this pattern remained significant in the regression model, where male gender was associated with fewer encounters. This suggests that healthcare use differs by gender in the synthetic population.
+
+In contrast, race was not significantly associated with healthcare utilization in the Kruskal-Wallis test. However, in the multivariable Poisson regression model, several racial categories showed statistically significant differences after adjustment for age and gender. This suggests that racial differences may become more visible when multiple sociodemographic factors are considered simultaneously.
+
+Age was also positively associated with healthcare coverage. Older patients tended to have higher coverage levels, as shown by the Spearman correlation and confirmed by the linear regression model. Gender differences were again substantial: female patients had significantly higher average healthcare coverage than male patients, and male gender remained negatively associated with coverage in the adjusted model.
+
+For race, no statistically significant differences in healthcare coverage were found in the Kruskal-Wallis test. In the linear regression model, most racial categories were not statistically significant at the 5% level, although the coefficient for Black patients was significant, indicating lower coverage relative to the reference category.
+
+### Interpretation
+
+Overall, the findings suggest that sociodemographic factors are associated with healthcare utilization and insurance coverage patterns in this synthetic dataset. In particular, age and gender appear to play an important role in shaping both healthcare use and coverage. Race showed weaker and less consistent associations, especially in the bivariate analyses, although some adjusted differences emerged in the regression models.
+
+These results are broadly consistent with the idea that healthcare needs and access may vary across demographic groups. Older individuals may require more frequent healthcare services, while gender differences may reflect variations in healthcare-seeking behaviour, health conditions, or service use patterns.
 
 ### Limitations
 
-- The data is entirely synthetic and generated by Synthea. While it mimics real-world patterns, it does not reflect actual patients or healthcare providers, and conclusions cannot be generalised to real populations.
-- The analysis does not account for confounding variables such as income, geographic location, or underlying health conditions, which may explain part of the observed associations.
-- The Poisson regression assumes that the mean equals the variance in encounter counts. If overdispersion is present, a negative binomial model would be more appropriate.
+- The dataset is synthetic and does not represent real patients or healthcare providers. Therefore, the findings should be interpreted as a demonstration of analytical methods rather than as evidence about real-world healthcare systems.
+- The count outcome may show overdispersion, meaning that the Poisson model may not fully capture the variability in healthcare utilization.
+- Healthcare coverage is highly skewed, which may affect the assumptions of linear regression.
+- The analysis only included a limited number of predictors. Other relevant factors, such as socioeconomic status, comorbidities, geography, or insurance type, were not included in the final models.
 
 ### Conclusion
 
-This project explored the relationship between sociodemographic factors and healthcare outcomes using a reproducible targets-based pipeline. The findings provide a foundation for further investigation into healthcare disparities and demonstrate the value of structured, reproducible data analysis workflows.
+In conclusion, this project found that age and gender were important predictors of both healthcare utilization and healthcare coverage in a synthetic healthcare dataset. Older patients tended to have more encounters and higher coverage, while female patients showed higher utilization and higher average coverage than male patients. Race was not significant in the bivariate hypothesis tests, but some racial differences appeared in the regression models after adjustment for other predictors. Although the synthetic nature of the dataset limits real-world interpretation, the project demonstrates how sociodemographic inequalities in healthcare access and utilization can be investigated using statistical methods.
