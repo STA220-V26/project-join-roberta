@@ -5,7 +5,7 @@
 
 ## Research Question
 
-> Do sociodemographic factors (age, gender, race) predict healthcare utilization and insurance coverage patterns?
+> Do sociodemographic factors such as age, gender, and race predict healthcare utilization and insurance coverage patterns?
 
 ## Data
 
